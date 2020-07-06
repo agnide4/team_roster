@@ -16,10 +16,10 @@ const render = require("./lib/htmlRenderer");
 // and to create objects for each team member (using the correct classes as blueprints!)
 const team_Action = [
     {
-        type: "List",
+        type: "list",
         name: "Team options",
         message: "What would you like to do?",
-        choices: ["Add the manager, Add an engineer, add an intern, View team profile"]
+        choices: ["Add the manager", "Add an engineer", "Add an intern", "View team profile"]
 
     
     }
@@ -103,12 +103,13 @@ const q_Intern = [
 ]
 
 inquirer.prompt(team_Action).then(function(response1){
-    if (response1.choices[0]){
+    let option = response1['Team options']
+    if (option == "Add the manager"){
         inquirer.prompt(q_Mngr)
     }
-    else if (response1.choices[1]){
+    else if (option == "Add an engineer"){
         inquirer.prompt(q_Eng)
-    }else if (response1.choices[2]){
+    }else if (option == "Add an intern"){
         inquirer.prompt(q_Intern)
     }else {
         console.log("View team profile function here")
