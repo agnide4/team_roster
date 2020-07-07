@@ -10,7 +10,7 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 
-//let team_Action;
+let team_Info = {};
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
@@ -108,7 +108,10 @@ inquirer.prompt(team_Action).then(function(response1){
         inquirer.prompt(q_Mngr)
     }
     else if (option == "Add an engineer"){
-        inquirer.prompt(q_Eng)
+        inquirer.prompt(q_Eng).then(function(engresp){
+            console.log(engresp)
+
+        })
     }else if (option == "Add an intern"){
         inquirer.prompt(q_Intern)
     }else {
