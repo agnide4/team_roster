@@ -10,7 +10,7 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 
-let team_Info = {};
+let team_Info = [];
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
@@ -45,7 +45,7 @@ const q_Eng = [
     {
         
         type: 'input',
-        name: "github username",
+        name: "github",
         message: "What is the engineer github username?"
     }
 
@@ -102,18 +102,38 @@ const q_Intern = [
 
 ]
 
-inquirer.prompt(team_Action).then(function(response1){
+inquirer
+    .prompt(team_Action)
+    .then(function(response1){
     let option = response1['Team options']
     if (option == "Add the manager"){
-        inquirer.prompt(q_Mngr)
+        inquirer
+            .prompt(q_Mngr)
+            .then(function(mresponse){
+                console.log(mresponse)
+                team_Manager = new Manager(mresponse.Name, mresponse.id, mresponse.email, mresponse['Office Number'])
+                team_Info.push(team_Manager)
+                console.log(team_Info)
+                
+            })
     }
     else if (option == "Add an engineer"){
-        inquirer.prompt(q_Eng).then(function(engresp){
-            console.log(engresp)
+        inquirer
+            .prompt(q_Eng)
+            .then(function(engresp){
+                engineer = new Engineer(engresp.Name, engresp.id, engresp.email, engresp.github)
+                team_Info.push(engineer)
+                console.log(team_Info)
 
         })
     }else if (option == "Add an intern"){
-        inquirer.prompt(q_Intern)
+        inquirer
+            .prompt(q_Intern)
+            .then(function(intresp){
+                intern = new Intern(intresp.Name, intresp.id, intresp.email, intresp.school)
+                team_Info.push(intern)
+                console.log(team_Info)
+            })
     }else {
         console.log("View team profile function here")
     }
