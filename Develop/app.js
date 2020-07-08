@@ -10,6 +10,7 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 
+let mngr_count = 0;
 let team_Info = [];
 
 // Write code to use inquirer to gather information about the development team members,
@@ -102,43 +103,79 @@ const q_Intern = [
 
 ]
 
-inquirer
+teamOption();
+
+function teamOption(){
+    inquirer
     .prompt(team_Action)
     .then(function(response1){
     let option = response1['Team options']
     if (option == "Add the manager"){
-        inquirer
-            .prompt(q_Mngr)
-            .then(function(mresponse){
-                console.log(mresponse)
-                team_Manager = new Manager(mresponse.Name, mresponse.id, mresponse.email, mresponse['Office Number'])
-                team_Info.push(team_Manager)
-                console.log(team_Info)
-                
-            })
+        add_Manager();
+          
     }
     else if (option == "Add an engineer"){
-        inquirer
-            .prompt(q_Eng)
-            .then(function(engresp){
-                engineer = new Engineer(engresp.Name, engresp.id, engresp.email, engresp.github)
-                team_Info.push(engineer)
-                console.log(team_Info)
+        add_Engineer();
 
-        })
     }else if (option == "Add an intern"){
-        inquirer
-            .prompt(q_Intern)
-            .then(function(intresp){
-                intern = new Intern(intresp.Name, intresp.id, intresp.email, intresp.school)
-                team_Info.push(intern)
-                console.log(team_Info)
-            })
+        add_Intern();
     }else {
         console.log("View team profile function here")
     }
 })
 
+}
+
+
+function add_Manager(){
+    if (mngr_count != 0){
+        console.log("You can only have " + mngr_count + " per team")
+        teamOption()
+    }
+    else{
+        inquirer
+    .prompt(q_Mngr)
+    .then(function(mresponse){
+        console.log(mresponse)
+        team_Manager = new Manager(mresponse.Name, mresponse.id, mresponse.email, mresponse['Office Number'])
+        team_Info.push(team_Manager)
+        console.log(team_Info)
+        mngr_count++;
+        teamOption();
+        
+    })
+
+    }
+    
+    
+
+}
+
+function add_Engineer(){
+    inquirer
+            .prompt(q_Eng)
+            .then(function(engresp){
+                engineer = new Engineer(engresp.Name, engresp.id, engresp.email, engresp.github)
+                team_Info.push(engineer)
+                console.log(team_Info)
+                teamOption();
+
+        })
+        
+}
+
+function add_Intern(){
+    inquirer
+            .prompt(q_Intern)
+            .then(function(intresp){
+                intern = new Intern(intresp.Name, intresp.id, intresp.email, intresp.school)
+                team_Info.push(intern)
+                console.log(team_Info)
+                teamOption();
+            })
+            
+
+}
 // After the user has input all employees desired, call the `render` function (required
 // above) and pass in an array containing all employee objects; the `render` function will
 // generate and return a block of HTML including templated divs for each employee!
