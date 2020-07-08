@@ -13,6 +13,7 @@ const render = require("./lib/htmlRenderer");
 let mngr_count = 0;
 let team_Info = [];
 
+
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
 const team_Action = [
@@ -121,6 +122,11 @@ function teamOption(){
         add_Intern();
     }else {
         console.log("View team profile function here")
+        let teamProfile = render(team_Info)
+        fs.writeFile('team.html', teamProfile, function (err) {
+            if (err) return console.log(err);
+            console.log("File created");
+          });
     }
 })
 
