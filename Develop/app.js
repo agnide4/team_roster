@@ -122,11 +122,20 @@ function teamOption(){
         add_Intern();
     }else {
         console.log("View team profile function here")
-        let teamProfile = render(team_Info)
-        fs.writeFile('team.html', teamProfile, function (err) {
-            if (err) return console.log(err);
-            console.log("File created");
-          });
+        //let teamProfile = render(team_Info)
+        //fs.writeFile('team.html', teamProfile, function (err) {
+        //    if (err) return console.log(err);
+        //    console.log("File created");
+        //});
+        if (fs.existsSync(OUTPUT_DIR)) {
+            fs.writeFileSync(outputPath, render(team_Info), "utf-8");
+        }
+        else{
+            fs.mkdirSync('output')
+            fs.writeFileSync(outputPath, render(team_Info), "utf-8");
+
+        }
+        
     }
 })
 
